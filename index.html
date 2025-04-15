@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Форма опроса</title>
+  <title>Запрос на доставку груза</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script type="text/javascript">
@@ -15,6 +15,8 @@
     })();
   </script>
   <script type="text/javascript" src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script>
+
+
 
 </script>
   <style>
@@ -110,9 +112,28 @@
     }
   </style>
 </head>
+<script>
+  // Сворачивает клавиатуру при клике в любое место вне инпутов/текстовых полей
+  document.addEventListener('click', function (e) {
+    const activeElement = document.activeElement;
+    const isInput = activeElement && (
+      activeElement.tagName === 'INPUT' ||
+      activeElement.tagName === 'TEXTAREA' ||
+      activeElement.tagName === 'SELECT'
+    );
+
+    if (isInput && !e.target.closest('input, textarea, select')) {
+      activeElement.blur();
+    }
+  });
+</script>
 <body>
+  <div class="message" id="thankYouMessage" style="display: none; text-align: center;">
+    <h2 style="color: #0077cc;">Спасибо, Ваш запрос отправлен.</h2>
+    <p style="margin-top: 10px; color: #333;">Специалист свяжется с Вами в течении 24 часов.</p>
+  </div>
   <div class="form-container">
-    <h2>Форма опроса</h2>
+    <h2>Запрос на доставку груза</h2>
     <form id="surveyForm" novalidate>
       <!-- 1. ФИО (обязательно) -->
       <label for="fullName">ФИО <span style="color:red">*</span>:</label>
@@ -142,11 +163,11 @@
       <label>Нужен ЕХ:</label>
       <div class="radio-group">
         <div class="radio-option">
-          <input type="radio" id="exYes" name="needEX" value="Да" required>
+          <input type="radio" id="exYes" name="needEX" value="Да">
           <label for="exYes">Да</label>
         </div>
         <div class="radio-option">
-          <input type="radio" id="exNo" name="needEX" value="Нет" required>
+          <input type="radio" id="exNo" name="needEX" value="Нет">
           <label for="exNo">Нет</label>
         </div>
       </div>
@@ -193,11 +214,11 @@
       <label>Выкуп товара:</label>
       <div class="radio-group">
         <div class="radio-option">
-          <input type="radio" id="buyoutYes" name="buyout" value="Да" required>
+          <input type="radio" id="buyoutYes" name="buyout" value="Да">
           <label for="buyoutYes">Да</label>
         </div>
         <div class="radio-option">
-          <input type="radio" id="buyoutNo" name="buyout" value="Нет" required>
+          <input type="radio" id="buyoutNo" name="buyout" value="Нет">
           <label for="buyoutNo">Нет</label>
         </div>
       </div>
@@ -214,7 +235,6 @@
         <button type="submit">Отправить</button>
       </div>
     </form>
-    <div class="message" id="feedbackMessage" style="display: none;">Спасибо, ваша анкета отправлена!</div>
   </div>
 
   <script>
@@ -277,16 +297,38 @@
       };
     
       emailjs.send('service_a96owjk', 'template_9sku5yf', templateParams)
-        .then(function(response) {
-          console.log('SUCCESS!', response.status, response.text);
-          document.getElementById('surveyForm').style.display = 'none';
-          document.getElementById('feedbackMessage').style.display = 'block';
-        }, function(error) {
-          console.log('FAILED...', error);
-          alert('Произошла ошибка при отправке. Попробуйте позже.');
-        });
+      .then(function(response) {
+        console.log('SUCCESS!', response.status, response.text);
+        document.body.innerHTML = `
+          <div style="
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #d0eaff, #f0faff);
+            font-family: Arial, sans-serif;
+            padding: 20px;
+          ">
+            <div style="
+              background-color: #ffffff;
+              padding: 40px;
+              border-radius: 10px;
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+              text-align: center;
+              max-width: 600px;
+            ">
+              <h2 style="color: #0077cc; margin-bottom: 10px;">Спасибо, Ваш запрос отправлен.</h2>
+              <p style="color: #2c7a2c; font-size: 1rem; margin-top: 0;">
+                Специалист свяжется с Вами в течении 24 часов.
+              </p>
+            </div>
+          </div>
+        `;
+      }, function(error) {
+        console.log('FAILED...', error);
+        alert('Произошла ошибка при отправке. Попробуйте позже.');
+      });
     });
     </script>
-     
 </body>
-</html>
+</html> 
