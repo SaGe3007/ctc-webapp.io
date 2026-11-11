@@ -7,7 +7,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script type="text/javascript">
-      // Инициализация EmailJS (замените 'YOUR_PUBLIC_KEY' на ваш реальный публичный ключ)
+     
       (function(){
       emailjs.init({
         publicKey: "ZwPWZuoiCzSLdrAjI",
@@ -20,7 +20,6 @@
 
 </script>
   <style>
-    /* Стили в голубых тонах */
     body {
       margin: 0;
       padding: 20px;
@@ -113,7 +112,6 @@
   </style>
 </head>
 <script>
-  // Сворачивает клавиатуру при клике в любое место вне инпутов/текстовых полей
   document.addEventListener('click', function (e) {
     const activeElement = document.activeElement;
     const isInput = activeElement && (
@@ -152,8 +150,8 @@
       <input type="email" id="email" name="email" placeholder="Введите адрес эл. почты">
       
       <!-- 5. Место погрузки -->
-      <label for="loadingPlace">Место погрузки:</label>
-      <input type="text" id="loadingPlace" name="loadingPlace" placeholder="Введите место погрузки">
+      <label for="loadingPlace">Маршрут:</label>
+      <input type="text" id="loadingPlace" name="loadingPlace" placeholder="Введите маршрут">
       
       <!-- 6. Дата погрузки -->
       <label for="loadingDate">Дата погрузки:</label>
@@ -273,7 +271,7 @@
     Название организации: ${formData.organization}
     Номер телефона: ${formData.phone}
     Электронная почта: ${formData.email}
-    Место погрузки: ${formData.loadingPlace}
+    Маршрут: ${formData.loadingPlace}
     Дата погрузки: ${formData.loadingDate}
     Нужен ЕХ: ${formData.needEX}
     Стоимость груза: ${formData.cargoCost} ${formData.currency}
